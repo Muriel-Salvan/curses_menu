@@ -3,6 +3,7 @@ Gem::Specification.new do |spec|
   spec.version       = '0.0.1'
   spec.authors       = ['Muriel Salvan']
   spec.email         = ['muriel@x-aeon.com']
+  spec.license       = 'BSD-3-Clause'
 
   spec.summary       = 'Simple menu offering choices with navigation keys using curses'
   spec.homepage      = 'http://x-aeon.com'
@@ -14,5 +15,5 @@ Gem::Specification.new do |spec|
   spec.files         = Dir['lib/**/*'] + Dir['examples/**/*']
   spec.require_paths = ['lib']
 
-  spec.add_dependency('curses')
+  spec.add_dependency 'curses', '~> 1.3'
 end
