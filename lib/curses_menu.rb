@@ -14,6 +14,7 @@ class CursesMenu
   COLORS_RED = 7
   COLORS_YELLOW = 8
   COLORS_BLUE = 9
+  COLORS_WHITE = 10
 
   # curses keys that are not defined by Curses, but that are returned by getch
   KEY_ENTER = 10
@@ -209,6 +210,7 @@ class CursesMenu
     Curses.init_pair(COLORS_RED, Curses::COLOR_RED, Curses::COLOR_BLACK)
     Curses.init_pair(COLORS_YELLOW, Curses::COLOR_YELLOW, Curses::COLOR_BLACK)
     Curses.init_pair(COLORS_BLUE, Curses::COLOR_BLUE, Curses::COLOR_BLACK)
+    Curses.init_pair(COLORS_WHITE, Curses::COLOR_WHITE, Curses::COLOR_BLACK)
     window = Curses.stdscr
     window.keypad = true
     @curses_initialized = true
