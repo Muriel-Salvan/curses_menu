@@ -35,10 +35,15 @@ module CursesMenuTest
       end
       window.setpos old_y, old_x
       # Build the map of colors per color pair acutally registered
+      colors_left_shift = Curses::A_COLOR.to_s(2).match(/^1+(0+)$/)[1].size
       color_pairs = CursesMenu.constants.select { |const| const.to_s.start_with?('COLORS_') }.map do |const|
         color_pair = CursesMenu.const_get(const)
         [
-          Curses.color_pair(color_pair),
+          # On Windows using Curses.color_pair can result in bugs [BUG] Unnormalized Fixnum value when using/displaying the value.
+          # So for now we depend on the internal algorithm used by color_pair (which is a left shift of the 0 bits of A_COLOR mask)
+          # TODO: Uncomment the following when curses will be fixed on Windows
+          # Curses.color_pair(color_pair),
+          color_pair << colors_left_shift,
           const
         ]
       end.to_h
