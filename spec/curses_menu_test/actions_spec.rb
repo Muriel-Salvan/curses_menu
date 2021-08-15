@@ -48,7 +48,7 @@ describe CursesMenu do
 
   it 'actions several actions' do
     actions = []
-    test_menu(keys: ['a', 'b', 'a']) do |menu|
+    test_menu(keys: %w[a b a]) do |menu|
       menu.item 'Menu item', actions: {
         'a' => {
           name: 'Action A',
@@ -66,16 +66,19 @@ describe CursesMenu do
   it 'actions several actions including the default one' do
     actions = []
     test_menu(keys: ['a', 'b', CursesMenu::KEY_ENTER, 'a']) do |menu|
-      menu.item('Menu item', actions: {
-        'a' => {
-          name: 'Action A',
-          execute: proc { actions << 'a' }
-        },
-        'b' => {
-          name: 'Action B',
-          execute: proc { actions << 'b' }
+      menu.item(
+        'Menu item',
+        actions: {
+          'a' => {
+            name: 'Action A',
+            execute: proc { actions << 'a' }
+          },
+          'b' => {
+            name: 'Action B',
+            execute: proc { actions << 'b' }
+          }
         }
-      }) do
+      ) do
         actions << 'ENTER'
       end
     end
@@ -84,17 +87,20 @@ describe CursesMenu do
 
   it 'actions nothing if action does not exist' do
     actions = []
-    test_menu(keys: ['a', 'b', 'c', 'a']) do |menu|
-      menu.item('Menu item', actions: {
-        'a' => {
-          name: 'Action A',
-          execute: proc { actions << 'a' }
-        },
-        'b' => {
-          name: 'Action B',
-          execute: proc { actions << 'b' }
+    test_menu(keys: %w[a b c a]) do |menu|
+      menu.item(
+        'Menu item',
+        actions: {
+          'a' => {
+            name: 'Action A',
+            execute: proc { actions << 'a' }
+          },
+          'b' => {
+            name: 'Action B',
+            execute: proc { actions << 'b' }
+          }
         }
-      }) do
+      ) do
         actions << 'ENTER'
       end
     end
@@ -114,25 +120,27 @@ describe CursesMenu do
 
   it 'navigates in sub-menus' do
     actions = []
-    test_menu(keys: [
-      # Enter sub-menu 1
-      CursesMenu::KEY_ENTER,
-      # Action sub-menu second item
-      Curses::KEY_DOWN,
-      CursesMenu::KEY_ENTER,
-      # Back to first menu
-      CursesMenu::KEY_ESCAPE,
-      # Enter sub-menu 2
-      Curses::KEY_DOWN,
-      CursesMenu::KEY_ENTER,
-      # Action sub-menu item
-      CursesMenu::KEY_ENTER,
-      # Exit sub-menu
-      Curses::KEY_DOWN,
-      CursesMenu::KEY_ENTER
-    ]) do |menu, key_presses|
+    test_menu(
+      keys: [
+        # Enter sub-menu 1
+        CursesMenu::KEY_ENTER,
+        # Action sub-menu second item
+        Curses::KEY_DOWN,
+        CursesMenu::KEY_ENTER,
+        # Back to first menu
+        CursesMenu::KEY_ESCAPE,
+        # Enter sub-menu 2
+        Curses::KEY_DOWN,
+        CursesMenu::KEY_ENTER,
+        # Action sub-menu item
+        CursesMenu::KEY_ENTER,
+        # Exit sub-menu
+        Curses::KEY_DOWN,
+        CursesMenu::KEY_ENTER
+      ]
+    ) do |menu, key_presses|
       menu.item 'Sub-menu 1' do
-        CursesMenu.new('Sub-menu 1 title', key_presses: key_presses) do |sub_menu|
+        described_class.new('Sub-menu 1 title', key_presses: key_presses) do |sub_menu|
           sub_menu.item 'Sub-menu item 1'
           sub_menu.item 'Sub-menu item 2' do
             actions << 'a'
@@ -140,7 +148,7 @@ describe CursesMenu do
         end
       end
       menu.item 'Sub-menu 2' do
-        CursesMenu.new('Sub-menu 2 title', key_presses: key_presses) do |sub_menu|
+        described_class.new('Sub-menu 2 title', key_presses: key_presses) do |sub_menu|
           sub_menu.item 'Sub-menu item 1' do
             actions << 'b'
           end
@@ -157,7 +165,7 @@ describe CursesMenu do
     actions = []
     test_menu(keys: [CursesMenu::KEY_ENTER, CursesMenu::KEY_ENTER, Curses::KEY_DOWN, CursesMenu::KEY_ENTER]) do |menu, key_presses|
       menu.item 'Sub-menu' do
-        CursesMenu.new('Sub-menu title', key_presses: key_presses) do |sub_menu|
+        described_class.new('Sub-menu title', key_presses: key_presses) do |sub_menu|
           sub_menu.item 'Sub-menu item quit' do
             actions << 'a'
             :menu_exit
@@ -175,7 +183,7 @@ describe CursesMenu do
     actions = []
     test_menu(keys: [CursesMenu::KEY_ENTER, CursesMenu::KEY_ESCAPE, Curses::KEY_DOWN, CursesMenu::KEY_ENTER]) do |menu, key_presses|
       menu.item 'Sub-menu' do
-        CursesMenu.new('Sub-menu title', key_presses: key_presses) do |sub_menu|
+        described_class.new('Sub-menu title', key_presses: key_presses) do |sub_menu|
           sub_menu.item 'Sub-menu item quit' do
             actions << 'a'
             :menu_exit

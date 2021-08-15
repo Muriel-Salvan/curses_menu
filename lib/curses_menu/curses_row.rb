@@ -46,6 +46,7 @@ class CursesMenu
     def change_cells(cells)
       cells.each do |cell_id, cell_info|
         raise "Unknown cell #{cell_id}" unless @cells.key?(cell_id)
+
         @cells[cell_id].merge!(cell_info)
         @cells[cell_id].delete(:cache_rendered_text)
       end
@@ -89,7 +90,7 @@ class CursesMenu
           # We have something to display from this substring
           window.color_set(
             if force_color_pair.nil?
-              cell_info[:color_pair] ? cell_info[:color_pair] : default_color_pair
+              cell_info[:color_pair] || default_color_pair
             else
               force_color_pair
             end
@@ -116,7 +117,7 @@ class CursesMenu
     # * *cell_id* (Symbol): Cell id to get text for
     # Result::
     # * String: The cell's text
-    def cell_text(cell_id, cell_decorator: nil)
+    def cell_text(cell_id)
       unless @cells[cell_id].key?(:cache_rendered_text)
         begin_str = "#{@cells[cell_id][:begin_with] || ''}#{@cells[cell_id][:text]}"
         end_str = @cells[cell_id][:end_with] || ''
@@ -124,7 +125,7 @@ class CursesMenu
           if @cells[cell_id][:fixed_size]
             text = "#{begin_str[0..@cells[cell_id][:fixed_size] - end_str.size - 1]}#{end_str}"
             remaining_size = @cells[cell_id][:fixed_size] - text.size
-            if remaining_size > 0
+            if remaining_size.positive?
               padding = ((@cells[cell_id][:pad] || ' ') * remaining_size)[0..remaining_size - 1]
               justify = @cells[cell_id][:justify] || :left
               case justify

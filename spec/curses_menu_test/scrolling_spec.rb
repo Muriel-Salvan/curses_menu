@@ -34,7 +34,7 @@ describe CursesMenu do
       end
     end
     assert_line 3, 'Menu item 2'
-    assert_line -3, "Menu item #{nbr_visible_items + 1}"
+    assert_line(-3, "Menu item #{nbr_visible_items + 1}")
   end
 
   it 'scrolls by using up key' do
@@ -45,7 +45,7 @@ describe CursesMenu do
       end
     end
     assert_line 3, "Menu item #{nbr_visible_items - 2}"
-    assert_line -3, "Menu item #{2 * nbr_visible_items - 3}"
+    assert_line(-3, "Menu item #{2 * nbr_visible_items - 3}")
   end
 
   it 'scrolls by using page down key' do
@@ -56,7 +56,7 @@ describe CursesMenu do
       end
     end
     assert_line 3, "Menu item #{nbr_visible_items - 1}"
-    assert_line -3, "Menu item #{nbr_visible_items * 2 - 2}"
+    assert_line(-3, "Menu item #{nbr_visible_items * 2 - 2}")
   end
 
   it 'scrolls by using page up key' do
@@ -67,7 +67,7 @@ describe CursesMenu do
       end
     end
     assert_line 3, "Menu item #{nbr_visible_items + 2 - 1}"
-    assert_line -3, "Menu item #{nbr_visible_items * 2}"
+    assert_line(-3, "Menu item #{nbr_visible_items * 2}")
   end
 
   it 'scrolls by using end key' do
@@ -78,7 +78,7 @@ describe CursesMenu do
       end
     end
     assert_line 3, "Menu item #{nbr_visible_items}"
-    assert_line -3, "Menu item #{nbr_visible_items * 2 - 1}"
+    assert_line(-3, "Menu item #{nbr_visible_items * 2 - 1}")
   end
 
   it 'scrolls by using home key' do
@@ -89,7 +89,7 @@ describe CursesMenu do
       end
     end
     assert_line 3, 'Menu item 0'
-    assert_line -3, "Menu item #{nbr_visible_items - 1}"
+    assert_line(-3, "Menu item #{nbr_visible_items - 1}")
   end
 
 end
