@@ -184,7 +184,7 @@ class CursesMenu
   # * *string* (String or CursesRow): The curses row, or as a single String.
   # * See CursesRow#print_on for all the other parameters description
   def print(window, string, from: 0, to: nil, default_color_pair: COLORS_LINE, force_color_pair: nil, pad: nil, add_nl: true, single_line: false)
-    string = CursesRow.new(default: { text: string }) if string.is_a?(String)
+    string = CursesRow.new({ default: { text: string } }) if string.is_a?(String)
     string.print_on(
       window,
       from: from,

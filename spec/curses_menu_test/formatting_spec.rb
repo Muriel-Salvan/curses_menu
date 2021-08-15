@@ -9,7 +9,7 @@ describe CursesMenu do
 
   it 'displays a single string in a CursesRow' do
     test_menu do |menu|
-      menu.item CursesMenu::CursesRow.new(cell: { text: 'Simple string' })
+      menu.item CursesMenu::CursesRow.new({ cell: { text: 'Simple string' } })
     end
     assert_line 3, 'Simple string'
   end
