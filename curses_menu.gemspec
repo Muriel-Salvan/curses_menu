@@ -1,13 +1,15 @@
+require "#{__dir__}/lib/curses_menu/version"
+
 Gem::Specification.new do |spec|
   spec.name = 'curses_menu'
-  spec.version = '0.0.1'
+  spec.version = CursesMenu::VERSION
   spec.authors = ['Muriel Salvan']
   spec.email = ['muriel@x-aeon.com']
   spec.license = 'BSD-3-Clause'
   spec.required_ruby_version = '>= 2.6'
 
   spec.summary = 'Simple menu offering choices with navigation keys using curses'
-  spec.homepage = 'http://x-aeon.com'
+  spec.homepage = 'https://github.com/Muriel-Salvan/curses_menu'
 
   spec.metadata['homepage_uri'] = spec.homepage
 
