@@ -13,10 +13,9 @@ Gem::Specification.new do |spec|
 
   spec.metadata['homepage_uri'] = spec.homepage
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files = Dir['lib/**/*'] + Dir['examples/**/*']
-  spec.require_paths = ['lib']
+  spec.files = Dir['*.md'] + Dir['{bin,docs,examples,lib,spec,tools}/**/*']
+  spec.executables = Dir['bin/**/*'].map { |exec_name| File.basename(exec_name) }
+  spec.extra_rdoc_files = Dir['*.md'] + Dir['{docs,examples}/**/*']
 
   spec.add_dependency 'curses', '~> 1.4'
 
