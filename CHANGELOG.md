@@ -1,3 +1,9 @@
+# [v0.0.3](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.2...v0.0.3) (2021-08-15 16:16:16)
+
+### Patches
+
+* [Add the spec direcotry in the gem as it contains files that can be useful to users](https://github.com/Muriel-Salvan/curses_menu/commit/aeb73ea4507029be97dba2d8243fa3e33ac151ba)
+
 # [v0.0.2](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.1...v0.0.2) (2021-08-15 15:24:19)
 
 ### Patches
