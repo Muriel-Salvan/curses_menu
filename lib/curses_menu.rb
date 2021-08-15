@@ -1,6 +1,7 @@
 require 'curses'
 require 'curses_menu/curses_row'
 
+# Provide a menu using curses with keys navigation and selection
 class CursesMenu
 
   # Define some color pairs names.
@@ -38,6 +39,7 @@ class CursesMenu
     current_items = gather_menu_items(&menu_items_def)
     selected_idx = 0
     raise "Menu #{title} has no items to select" if selected_idx.nil?
+
     window = curses_menu_initialize
     begin
       max_displayed_items = window.maxy - 5
@@ -71,17 +73,19 @@ class CursesMenu
           'Esc' => 'Exit'
         }
         if current_items[selected_idx][:actions]
-          display_actions.merge!(Hash[current_items[selected_idx][:actions].map do |action_shortcut, action_info|
-            [
-              case action_shortcut
-              when KEY_ENTER
-                'Enter'
-              else
-                action_shortcut
-              end,
-              action_info[:name]
-            ]
-          end])
+          display_actions.merge!(
+            current_items[selected_idx][:actions].map do |action_shortcut, action_info|
+              [
+                case action_shortcut
+                when KEY_ENTER
+                  'Enter'
+                else
+                  action_shortcut
+                end,
+                action_info[:name]
+              ]
+            end.to_h
+          )
         end
         print(
           window,
@@ -97,6 +101,7 @@ class CursesMenu
         loop do
           user_choice = key_presses.empty? ? window.getch : key_presses.shift
           break unless user_choice.nil?
+
           sleep 0.01
         end
         case user_choice
@@ -136,9 +141,9 @@ class CursesMenu
           end
         end
         # Stay in bounds
-        display_first_char_idx = 0 if display_first_char_idx < 0
+        display_first_char_idx = 0 if display_first_char_idx.negative?
         selected_idx = current_items.size - 1 if selected_idx >= current_items.size
-        selected_idx = 0 if selected_idx < 0
+        selected_idx = 0 if selected_idx.negative?
         if selected_idx < display_first_idx
           display_first_idx = selected_idx
         elsif selected_idx >= display_first_idx + max_displayed_items
@@ -179,7 +184,7 @@ class CursesMenu
   # * *string* (String or CursesRow): The curses row, or as a single String.
   # * See CursesRow#print_on for all the other parameters description
   def print(window, string, from: 0, to: nil, default_color_pair: COLORS_LINE, force_color_pair: nil, pad: nil, add_nl: true, single_line: false)
-    string = CursesRow.new(default: { text: string }) if string.is_a?(String)
+    string = CursesRow.new({ default: { text: string } }) if string.is_a?(String)
     string.print_on(
       window,
       from: from,
