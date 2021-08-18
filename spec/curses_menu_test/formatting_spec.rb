@@ -7,6 +7,20 @@ describe CursesMenu do
     assert_line 3, 'Simple string'
   end
 
+  it 'displays a single string in UTF-8' do
+    test_menu do |menu|
+      menu.item 'Simple string - 単純な文字列'
+    end
+    # Ruby curses does not handle wide characters correctly in the inch method.
+    # This test is pending a better support for UTF-8.
+    # cf https://github.com/ruby/curses/issues/65
+    # TODO: Uncomment when Ruby curses will be fixed.
+    # rubocop:disable Style/AsciiComments
+    # assert_line 3, 'Simple string - 単純な文字列'
+    # rubocop:enable Style/AsciiComments
+    assert_line 3, /^Simple string - .+$/
+  end
+
   it 'displays a single string in a CursesRow' do
     test_menu do |menu|
       menu.item CursesMenu::CursesRow.new({ cell: { text: 'Simple string' } })

@@ -50,7 +50,7 @@ module CursesMenuTest
       chars.
         map do |chr|
           {
-            char: (chr & Curses::A_CHARTEXT).chr,
+            char: (chr & Curses::A_CHARTEXT).chr(Encoding::UTF_8),
             color: color_pairs[chr & Curses::A_COLOR] || chr & Curses::A_COLOR,
             attributes: chr & Curses::A_ATTRIBUTES
           }
@@ -87,11 +87,15 @@ module CursesMenuTest
     #
     # Parameters::
     # * *line_idx* (Integer): The line index of the screenshot
-    # * *expectation* (String): The expected line
+    # * *expectation* (String or Regexp): The expected line
     def assert_line(line_idx, expectation)
-      line = @screenshot[line_idx][0..expectation.size].map { |char_info| char_info[:char] }.join
-      # Add an ending space to make sure the line does not continue after what we test
-      expect(line).to eq("#{expectation} "), "Screenshot line #{line_idx} differs:\n  \"#{line}\" should be\n  \"#{expectation} \""
+      line = @screenshot[line_idx][0..(expectation.is_a?(Regexp) ? -1 : expectation.size)].map { |char_info| char_info[:char] }.join
+      if expectation.is_a?(Regexp)
+        expect(line).to match(expectation), "Screenshot line #{line_idx} differs:\n  \"#{line}\" should be\n  \"#{expectation} \""
+      else
+        # Add an ending space to make sure the line does not continue after what we test
+        expect(line).to eq("#{expectation} "), "Screenshot line #{line_idx} differs:\n  \"#{line}\" should be\n  \"#{expectation} \""
+      end
     end
 
     # Assert that a line of the screenshot starts with a given content, using colors information
