@@ -1,3 +1,9 @@
+# [v0.0.5](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.4...v0.0.5) (2021-08-18 11:48:24)
+
+### Patches
+
+* [[Hotfix] Add Windows support](https://github.com/Muriel-Salvan/curses_menu/commit/b47b51a79988363c0e292987fe4a97dd6f05c6d8)
+
 # [v0.0.4](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.3...v0.0.4) (2021-08-18 10:25:59)
 
 ### Patches
