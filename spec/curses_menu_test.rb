@@ -50,7 +50,13 @@ module CursesMenuTest
       chars.
         map do |chr|
           {
-            char: (chr & Curses::A_CHARTEXT).chr(Encoding::UTF_8),
+            char: begin
+              (chr & Curses::A_CHARTEXT).chr(Encoding::UTF_8)
+            rescue RangeError
+              # On Windows curses returns wrong encoded characters.
+              # In this case we just force an ASCII version of it.
+              (chr & 255).chr(Encoding::UTF_8)
+            end,
             color: color_pairs[chr & Curses::A_COLOR] || chr & Curses::A_COLOR,
             attributes: chr & Curses::A_ATTRIBUTES
           }
