@@ -1,3 +1,9 @@
+# [v0.0.4](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.3...v0.0.4) (2021-08-18 10:25:59)
+
+### Patches
+
+* [Test UTF-8 support](https://github.com/Muriel-Salvan/curses_menu/commit/f94129db540d41f17f0ed46563461601f140029f)
+
 # [v0.0.3](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.2...v0.0.3) (2021-08-15 16:16:16)
 
 ### Patches
