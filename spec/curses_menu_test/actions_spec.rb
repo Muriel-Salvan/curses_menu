@@ -7,7 +7,7 @@ describe CursesMenu do
         actioned = true
       end
     end
-    expect(actioned).to eq(true)
+    expect(actioned).to be(true)
   end
 
   it 'actions the default selection when pressed enter on the correct item' do
@@ -115,7 +115,7 @@ describe CursesMenu do
         :menu_exit
       end
     end
-    expect(quit).to eq(true)
+    expect(quit).to be(true)
   end
 
   it 'navigates in sub-menus' do
