@@ -20,11 +20,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'curses', '~> 1.4'
 
   # Test framework
-  spec.add_development_dependency 'rspec', '~> 3.10'
+  spec.add_development_dependency 'rspec', '~> 3.11'
   # Automatic semantic releasing
   spec.add_development_dependency 'sem_ver_components', '~> 0.3'
   # Lint checker
-  spec.add_development_dependency 'rubocop', '~> 1.19'
+  spec.add_development_dependency 'rubocop', '~> 1.36'
   # Lint checker for rspec
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.4'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.13'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 end
