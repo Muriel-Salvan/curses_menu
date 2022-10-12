@@ -15,9 +15,7 @@ describe CursesMenu do
     # This test is pending a better support for UTF-8.
     # cf https://github.com/ruby/curses/issues/65
     # TODO: Uncomment when Ruby curses will be fixed.
-    # rubocop:disable Style/AsciiComments
     # assert_line 3, 'Simple string - 単純な文字列'
-    # rubocop:enable Style/AsciiComments
     assert_line 3, /^Simple string - .+$/
   end
 
@@ -245,7 +243,7 @@ describe CursesMenu do
 
   it 'does not exceed line when several cells are too long' do
     nbr_visible_chars = Curses.stdscr.maxx
-    nbr_chars_per_cell = nbr_visible_chars / 3 + 1
+    nbr_chars_per_cell = (nbr_visible_chars / 3) + 1
     test_menu do |menu|
       menu.item CursesMenu::CursesRow.new(
         {
@@ -257,13 +255,13 @@ describe CursesMenu do
       )
       menu.item 'Menu item 2'
     end
-    assert_line 3, "#{'1' * nbr_chars_per_cell} #{'2' * nbr_chars_per_cell} #{'3' * (nbr_visible_chars - 2 * nbr_chars_per_cell - 3)}"
+    assert_line 3, "#{'1' * nbr_chars_per_cell} #{'2' * nbr_chars_per_cell} #{'3' * (nbr_visible_chars - (2 * nbr_chars_per_cell) - 3)}"
     assert_line 4, 'Menu item 2'
   end
 
   it 'does not exceed line when several cells are too long due to separators' do
     nbr_visible_chars = Curses.stdscr.maxx
-    nbr_chars_per_cell = nbr_visible_chars / 3 + 1
+    nbr_chars_per_cell = (nbr_visible_chars / 3) + 1
     test_menu do |menu|
       menu.item CursesMenu::CursesRow.new(
         {
@@ -274,7 +272,7 @@ describe CursesMenu do
       )
       menu.item 'Menu item 2'
     end
-    assert_line 3, "#{'1' * nbr_chars_per_cell}#{'2' * nbr_chars_per_cell}#{'3' * (nbr_visible_chars - 2 * nbr_chars_per_cell - 1)}"
+    assert_line 3, "#{'1' * nbr_chars_per_cell}#{'2' * nbr_chars_per_cell}#{'3' * (nbr_visible_chars - (2 * nbr_chars_per_cell) - 1)}"
     assert_line 4, 'Menu item 2'
   end
 

@@ -36,7 +36,7 @@ module CursesMenuTest
       window.setpos old_y, old_x
       # Build the map of colors per color pair acutally registered
       colors_left_shift = Curses::A_COLOR.to_s(2).match(/^1+(0+)$/)[1].size
-      color_pairs = CursesMenu.constants.select { |const| const.to_s.start_with?('COLORS_') }.map do |const|
+      color_pairs = CursesMenu.constants.select { |const| const.to_s.start_with?('COLORS_') }.to_h do |const|
         color_pair = CursesMenu.const_get(const)
         [
           # On Windows using Curses.color_pair can result in bugs [BUG] Unnormalized Fixnum value when using/displaying the value.
@@ -46,7 +46,7 @@ module CursesMenuTest
           color_pair << colors_left_shift,
           const
         ]
-      end.to_h
+      end
       chars.
         map do |chr|
           {
@@ -57,7 +57,7 @@ module CursesMenuTest
               # In this case we just force an ASCII version of it.
               (chr & 255).chr(Encoding::UTF_8)
             end,
-            color: color_pairs[chr & Curses::A_COLOR] || chr & Curses::A_COLOR,
+            color: color_pairs[chr & Curses::A_COLOR] || (chr & Curses::A_COLOR),
             attributes: chr & Curses::A_ATTRIBUTES
           }
         end.

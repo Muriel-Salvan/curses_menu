@@ -74,7 +74,7 @@ class CursesMenu
         }
         if current_items[selected_idx][:actions]
           display_actions.merge!(
-            current_items[selected_idx][:actions].map do |action_shortcut, action_info|
+            current_items[selected_idx][:actions].to_h do |action_shortcut, action_info|
               [
                 case action_shortcut
                 when KEY_ENTER
@@ -84,7 +84,7 @@ class CursesMenu
                 end,
                 action_info[:name]
               ]
-            end.to_h
+            end
           )
         end
         print(
