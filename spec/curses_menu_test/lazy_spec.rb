@@ -8,7 +8,7 @@ describe CursesMenu do
         'Menu item lazy'
       end)
     end
-    expect(render_called).to eq true
+    expect(render_called).to be true
     assert_line 3, 'Menu item lazy'
   end
 
@@ -20,7 +20,7 @@ describe CursesMenu do
         CursesMenu::CursesRow.new({ cell: { text: 'Menu item lazy' } })
       end)
     end
-    expect(render_called).to eq true
+    expect(render_called).to be true
     assert_line 3, 'Menu item lazy'
   end
 
@@ -36,7 +36,7 @@ describe CursesMenu do
         'Menu item lazy'
       end)
     end
-    expect(render_called).to eq false
+    expect(render_called).to be false
   end
 
   it 'keeps lazy rendered titles in a cache while navigating' do
