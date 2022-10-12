@@ -1,3 +1,9 @@
+# [v0.1.0](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.6...v0.1.0) (2022-10-12 15:58:25)
+
+### Features
+
+* [[#5] [feature] Add possibility to render menu item titles in a lazy way](https://github.com/Muriel-Salvan/curses_menu/commit/6997c846f800d37441ea40bce109345e725ff12c)
+
 # [v0.0.6](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.5...v0.0.6) (2022-10-12 15:48:18)
 
 ### Patches
