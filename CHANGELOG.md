@@ -1,3 +1,9 @@
+# [v0.0.6](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.5...v0.0.6) (2022-10-12 15:48:18)
+
+### Patches
+
+* [Bump versions](https://github.com/Muriel-Salvan/curses_menu/commit/ec272ce612c45a127f90613f3133e0186eab8e22)
+
 # [v0.0.5](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.4...v0.0.5) (2021-08-18 11:48:24)
 
 ### Patches
