@@ -55,9 +55,11 @@ class CursesMenu
         # Display the menu
         current_items[display_first_idx..display_first_idx + max_displayed_items - 1].each.with_index do |item_info, idx|
           selected = display_first_idx + idx == selected_idx
+          # Keep a cache of titles as they can be loaded in a lazy way for performance
+          item_info[:title_cached] = item_info[:title].is_a?(Proc) ? item_info[:title].call : item_info[:title] unless item_info.key?(:title_cached)
           print(
             window,
-            item_info[:title],
+            item_info[:title_cached],
             from: display_first_char_idx,
             default_color_pair: item_info.key?(:actions) ? COLORS_MENU_ITEM : COLORS_LINE,
             force_color_pair: selected ? COLORS_MENU_ITEM_SELECTED : nil,
@@ -159,7 +161,7 @@ class CursesMenu
   # This method is meant to be called from a choose_from call.
   #
   # Parameters::
-  # * *title* (String or CursesRow): Text to be displayed for this item
+  # * *title* (String, CursesRow or Proc): Text to be displayed for this item, or Proc returning this text when needed (lazy loading)
   # * *actions* (Hash<Object, Hash<Symbol,Object> >): Associated actions to this item, per shortcut [default: {}]
   #   * *name* (String): Name of this action (displayed at the bottom of the menu)
   #   * *execute* (Proc): Code called when this action is selected
