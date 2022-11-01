@@ -1,3 +1,9 @@
+# [v0.2.0](https://github.com/Muriel-Salvan/curses_menu/compare/v0.1.0...v0.2.0) (2022-11-01 21:07:07)
+
+### Features
+
+* [[feature] [#6] Add lazy evaluation for actions](https://github.com/Muriel-Salvan/curses_menu/commit/0a5a96ae84fecdf982f763b833e8e863231dde73)
+
 # [v0.1.0](https://github.com/Muriel-Salvan/curses_menu/compare/v0.0.6...v0.1.0) (2022-10-12 15:58:25)
 
 ### Features
