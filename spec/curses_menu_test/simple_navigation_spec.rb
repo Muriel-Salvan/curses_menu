@@ -9,6 +9,16 @@ describe CursesMenu do
     assert_line(-1, '= Arrows/Home/End: Navigate | Esc: Exit')
   end
 
+  it 'displays a menu with 1 item having a default action' do
+    test_menu(title: 'Menu title') do |menu|
+      menu.item 'Menu item' do
+        # Do nothing
+      end
+    end
+    assert_line 3, 'Menu item'
+    assert_line(-1, '= Arrows/Home/End: Navigate | Enter: Select | Esc: Exit')
+  end
+
   it 'displays a menu with several items' do
     test_menu do |menu|
       menu.item 'Menu item 1'
