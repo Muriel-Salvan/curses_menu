@@ -74,9 +74,11 @@ class CursesMenu
           'Arrows/Home/End' => 'Navigate',
           'Esc' => 'Exit'
         }
-        if current_items[selected_idx][:actions]
+        # Keep a cache of actions as they can be loaded in a lazy way for performance
+        current_items[selected_idx][:actions_cached] = current_items[selected_idx][:actions].is_a?(Proc) ? current_items[selected_idx][:actions].call : current_items[selected_idx][:actions] unless current_items[selected_idx].key?(:actions_cached)
+        if current_items[selected_idx][:actions_cached]
           display_actions.merge!(
-            current_items[selected_idx][:actions].to_h do |action_shortcut, action_info|
+            current_items[selected_idx][:actions_cached].to_h do |action_shortcut, action_info|
               [
                 case action_shortcut
                 when KEY_ENTER
@@ -127,9 +129,11 @@ class CursesMenu
           break
         else
           # Check actions
-          if current_items[selected_idx][:actions]&.key?(user_choice)
+          # Keep a cache of actions as they can be loaded in a lazy way for performance
+          current_items[selected_idx][:actions_cached] = current_items[selected_idx][:actions].is_a?(Proc) ? current_items[selected_idx][:actions].call : current_items[selected_idx][:actions] unless current_items[selected_idx].key?(:actions_cached)
+          if current_items[selected_idx][:actions_cached]&.key?(user_choice)
             curses_menu_finalize
-            result = current_items[selected_idx][:actions][user_choice][:execute].call
+            result = current_items[selected_idx][:actions_cached][user_choice][:execute].call
             if result.is_a?(Symbol)
               case result
               when :menu_exit
@@ -162,9 +166,10 @@ class CursesMenu
   #
   # Parameters::
   # * *title* (String, CursesRow or Proc): Text to be displayed for this item, or Proc returning this text when needed (lazy loading)
-  # * *actions* (Hash<Object, Hash<Symbol,Object> >): Associated actions to this item, per shortcut [default: {}]
+  # * *actions* (Hash<Object, Hash<Symbol,Object> > or Proc): Associated actions to this item, per shortcut, or Proc returning those actions when needed (lazy loading) [default: {}]
   #   * *name* (String): Name of this action (displayed at the bottom of the menu)
   #   * *execute* (Proc): Code called when this action is selected
+  #   In case of lazy loading (with a Proc), the title Proc will always be called first.
   # * *&action* (Proc): Code called if the item is selected (action for the enter key) [optional].
   #   * Result::
   #     * Symbol or Object: If the code returns a symbol, the menu will behave in a specific way:
@@ -172,8 +177,21 @@ class CursesMenu
   #       * *menu_refresh*: The menu will compute again its items.
   def item(title, actions: {}, &action)
     menu_item_def = { title: title }
-    all_actions = action.nil? ? actions : actions.merge(KEY_ENTER => { name: 'Select', execute: action })
-    menu_item_def[:actions] = all_actions unless all_actions.empty?
+    all_actions =
+      if action.nil?
+        actions
+      else
+        mapped_default_action = { KEY_ENTER => { name: 'Select', execute: action } }
+        if actions.is_a?(Proc)
+          # Make sure we keep the lazyness
+          proc do
+            actions.call.merge(mapped_default_action)
+          end
+        else
+          actions.merge(mapped_default_action)
+        end
+      end
+    menu_item_def[:actions] = all_actions if all_actions.is_a?(Proc) || !all_actions.empty?
     @current_menu_items << menu_item_def
   end
 
